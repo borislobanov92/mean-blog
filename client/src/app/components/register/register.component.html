@@ -58,7 +58,7 @@
            class="alert alert-danger">
         Maximum characters: {{email.errors?.maxlength.requiredLength}}
       </div>
-      <div *ngIf="email.errors?.email && email.dirty"
+      <div *ngIf="email.errors?.validateEmail && email.dirty"
            class="alert alert-danger">
         Please enter a valid email
       </div>

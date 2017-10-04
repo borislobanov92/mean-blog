@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,8 @@ export class RegisterComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthService
   ) {
     this.createForm()
   }
@@ -25,7 +27,7 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(30),
-        Validators.email
+        this.validateEmail
       ])],
       username: ['', Validators.compose([
         Validators.required,
@@ -51,7 +53,21 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit() {
-    console.log(this.form);
+    const user = {
+      email: this.form.get('email').value,
+      username: this.form.get('username').value,
+      password: this.form.get('password').value
+    };
+    this.authService.registerUser(user)
+      .subscribe(res => {
+        console.log(res);
+      })
+  }
+
+  validateEmail(controls) {
+    const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    if (regExp.test(controls.value) || !controls.value) { return null }
+    return { 'validateEmail': true };
   }
 
   validatePassword(controls) {
