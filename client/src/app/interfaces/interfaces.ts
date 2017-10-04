@@ -1,10 +1,12 @@
 export interface IUserAuthData {
   username: string;
-  email: string;
   password: string;
+  email?: string;
 }
 
 export interface IResponseData {
   success: boolean,
-  message: string
+  message: string,
+  token?: string,
+  user?: any
 }
