@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from "../../services/auth.service";
+import { Router } from "@angular/router";
+import { IResponseData } from "../../interfaces/interfaces";
 
 @Component({
   selector: 'app-register',
@@ -10,15 +12,22 @@ import { AuthService } from "../../services/auth.service";
 export class RegisterComponent implements OnInit {
 
   form: FormGroup;
+  message: string;
+  messageClass: string;
+  processing: boolean = false;
+  emailValid: boolean = true;
+  emailMessage: string;
+  usernameValid: boolean = true;
+  usernameMessage: string;
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
-  ) {
-    this.createForm()
-  }
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    this.createForm();
   }
 
   createForm() {
@@ -45,23 +54,60 @@ export class RegisterComponent implements OnInit {
     }, { validator: this.matchingPasswords('password', 'confirm')});
   }
 
+  onRegisterSubmit() {
+    this.processing = true;
+    this.disableForm();
+    const user = {
+      email: this.email.value,
+      username: this.username.value,
+      password: this.password.value
+    };
+    this.authService.registerUser(user)
+      .subscribe((data: IResponseData) => {
+        this.message = data.message;
+
+        if (!data.success) {
+          this.messageClass = 'alert alert-danger';
+          this.processing = false;
+          this.enableForm();
+        } else {
+          this.messageClass = 'alert alert-success';
+          setTimeout(() => {
+            this.router.navigate(['/login'])
+          }, 2000);
+        }
+      });
+  }
+
+  checkEmail() {
+    const email = this.email.value;
+    if (email === '') { return; }
+
+    this.authService.checkEmail(email)
+      .subscribe((data: IResponseData) => {
+        console.log(data);
+        this.emailValid = data.success;
+        this.emailMessage = data.message;
+      });
+  }
+
+  checkUsername() {
+    const username = this.username.value
+    if (username === '') { return; }
+
+    this.authService.checkUsername(username)
+      .subscribe((data: IResponseData) => {
+        console.log(data);
+        this.usernameValid = data.success;
+        this.usernameMessage = data.message;
+      });
+  }
+
   matchingPasswords(password, confirm) {
     return (group: FormGroup) => {
       if (group.controls[password].value === group.controls[confirm].value) { return null; }
       return { 'matchingPasswords': true };
     }
-  }
-
-  onRegisterSubmit() {
-    const user = {
-      email: this.form.get('email').value,
-      username: this.form.get('username').value,
-      password: this.form.get('password').value
-    };
-    this.authService.registerUser(user)
-      .subscribe(res => {
-        console.log(res);
-      })
   }
 
   validateEmail(controls) {
@@ -80,6 +126,20 @@ export class RegisterComponent implements OnInit {
     const regExp = new RegExp(/^[a-zA-Z0-9]+$/);
     if (regExp.test(controls.value) || !controls.value) { return null; }
     return { 'validateUsername': true };
+  }
+
+  disableForm() {
+    this.email.disable();
+    this.username.disable();
+    this.password.disable();
+    this.confirm.disable();
+  }
+
+  enableForm() {
+    this.email.enable();
+    this.username.enable();
+    this.password.enable();
+    this.confirm.enable();
   }
 
   get email() {
