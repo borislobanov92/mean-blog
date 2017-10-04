@@ -1,5 +1,11 @@
 <h1 class="page-header">Registration Page</h1>
 
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
 <!-- Registration Form -->
 <form [formGroup]="form" (submit)="onRegisterSubmit()">
 
@@ -7,11 +13,13 @@
   <div class="form-group">
     <label for="username">Username</label>
     <div [ngClass]="{
-       'has-error': (username.errors && username.dirty),
-       'has-success': !username.errors}">
+       'has-error': (username.errors && username.dirty)
+          || (!usernameValid && username.dirty),
+       'has-success': (!username.errors && usernameValid)}">
       <input type="text" name="username"
              class="form-control" autocomplete="off"
-             placeholder="*Username" formControlName="username"/>
+             placeholder="*Username" formControlName="username"
+            (blur)="checkUsername()"/>
     </div>
 
     <div class="help-block">
@@ -31,6 +39,9 @@
           class="alert alert-danger">
         Username should only contains letters and/or digits
       </div>
+      <div *ngIf="usernameMessage">
+        {{ usernameMessage }}
+      </div>
     </div>
 
   </div>
@@ -39,11 +50,13 @@
   <div class="form-group">
     <label for="email">Email</label>
     <div [ngClass]="{
-       'has-error': (email.errors && email.dirty),
-       'has-success': !email.errors}">
+       'has-error': (email.errors && email.dirty)
+          || (!emailValid && email.dirty),
+       'has-success': (!email.errors && emailValid)}">
       <input type="text" name="email"
              class="form-control" autocomplete="off"
-             placeholder="*Email" formControlName="email"/>
+             placeholder="*Email" formControlName="email"
+            (blur)="checkEmail()"/>
     </div>
     <div class="help-block">
       <div *ngIf="email.errors?.required && email.dirty"
@@ -61,6 +74,9 @@
       <div *ngIf="email.errors?.validateEmail && email.dirty"
            class="alert alert-danger">
         Please enter a valid email
+      </div>
+      <div *ngIf="emailMessage">
+        {{ emailMessage }}
       </div>
     </div>
   </div>
@@ -121,7 +137,8 @@
   </div>
 
   <!-- Submit Input -->
-  <input [disabled]="!form.valid" type="submit" class="btn btn-primary" value="Submit" />
+  <input [disabled]="!form.valid || processing || !emailValid || !usernameValid"
+         type="submit" class="btn btn-primary" value="Submit" />
 
 </form>
 <!-- Registration Form /-->
