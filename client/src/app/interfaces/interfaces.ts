@@ -8,5 +8,11 @@ export interface IResponseData {
   success: boolean,
   message: string,
   token?: string,
-  user?: any
+  user?: IUserObject
+}
+
+export interface IUserObject {
+  username: string,
+  _id?: string,
+  email?: string
 }

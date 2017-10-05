@@ -12,6 +12,8 @@ import { LoginComponent } from './components/login/login.component';
 
 // Services
 import { AuthService } from "./services/auth.service";
+import { ProfileComponent } from './components/profile/profile.component';
+import { FlashMessagesModule } from "angular2-flash-messages";
 
 @NgModule({
   declarations: [
@@ -20,13 +22,15 @@ import { AuthService } from "./services/auth.service";
     HomeComponent,
     DashboardComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FlashMessagesModule
   ],
   providers: [
     AuthService
