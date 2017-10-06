@@ -11,24 +11,24 @@ let titleLengthChecker = (title) => {
     return (title.length > 5 || title.length < 50);
 };
 
-// Validate Function to check if valid e-mail format
+// Validate Function to check if valid title format
 let alphaNumericTitleChecker = (title) => {
-    // Check if e-mail exists
+    // Check if title exists
     if (!title) { return false; }
 
-    // Regular expression to test for a valid e-mail
+    // Regular expression to test for a valid title
     const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/);
     return regExp.test(title); // Return regular expression test results (true or false)
 };
 
-// Array of Email Validators
+// Array of Title Validators
 const titleValidators = [
-    // First Email Validator
+    // First Title Validator
     {
         validator: titleLengthChecker,
         message: 'Title must be at least 5 characters but no more than 50'
     },
-    // Second Email Validator
+    // Second Title Validator
     {
         validator: alphaNumericTitleChecker,
         message: 'Title must be alphanumeric'

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from "../../services/auth.service";
-import { Router } from "@angular/router";
-import { IResponseData } from "../../interfaces/interfaces";
+import {FormControl, FormBuilder, FormGroup, Validators, AbstractControl} from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { IResponseData } from '../../interfaces/interfaces';
+import {GlobalConfig} from '../../_config/global-config';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +12,7 @@ import { IResponseData } from "../../interfaces/interfaces";
 })
 export class RegisterComponent implements OnInit {
 
+  _config = GlobalConfig.CLIENT_SETTINGS;
   form: FormGroup;
   message: string;
   messageClass: string;
@@ -67,13 +69,13 @@ export class RegisterComponent implements OnInit {
         this.message = data.message;
 
         if (!data.success) {
-          this.messageClass = 'alert alert-danger';
+          this.messageClass = this._config.errorMessageClass;
           this.processing = false;
           this.enableForm();
         } else {
-          this.messageClass = 'alert alert-success';
+          this.messageClass = this._config.successMessageClass;
           setTimeout(() => {
-            this.router.navigate(['/login'])
+            this.router.navigate(['/login']);
           }, 2000);
         }
       });
@@ -92,7 +94,7 @@ export class RegisterComponent implements OnInit {
   }
 
   checkUsername() {
-    const username = this.username.value
+    const username = this.username.value;
     if (username === '') { return; }
 
     this.authService.checkUsername(username)
@@ -107,12 +109,12 @@ export class RegisterComponent implements OnInit {
     return (group: FormGroup) => {
       if (group.controls[password].value === group.controls[confirm].value) { return null; }
       return { 'matchingPasswords': true };
-    }
+    };
   }
 
   validateEmail(controls) {
     const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    if (regExp.test(controls.value) || !controls.value) { return null }
+    if (regExp.test(controls.value) || !controls.value) { return null; }
     return { 'validateEmail': true };
   }
 
@@ -142,19 +144,19 @@ export class RegisterComponent implements OnInit {
     this.confirm.enable();
   }
 
-  get email() {
+  get email(): AbstractControl {
     return this.form.controls.email;
   }
 
-  get username() {
+  get username(): AbstractControl {
     return this.form.controls.username;
   }
 
-  get password() {
+  get password(): AbstractControl {
     return this.form.controls.password;
   }
 
-  get confirm() {
+  get confirm(): AbstractControl {
     return this.form.controls.confirm;
   }
 }

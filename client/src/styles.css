@@ -1,1 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+/*Validation error messages shoud be closer to each other*/
+.help-block .alert {
+  margin-bottom: 5px;
+}
