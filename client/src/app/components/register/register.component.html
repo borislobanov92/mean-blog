@@ -22,28 +22,24 @@
             (blur)="checkUsername()"/>
     </div>
 
-    <div class="help-block">
-      <div *ngIf="username.errors?.required && username.dirty"
-           class="alert alert-danger">
+    <ul class="help-block">
+      <li *ngIf="username.errors?.required && username.dirty">
         This field is required
-      </div>
-      <div *ngIf="username.errors?.minlength && username.dirty"
-           class="alert alert-danger">
+      </li>
+      <li *ngIf="username.errors?.minlength && username.dirty">
         Minimum characters: {{username.errors?.minlength.requiredLength}}
-      </div>
-      <div *ngIf="username.errors?.maxlength && username.dirty"
-           class="alert alert-danger">
+      </li>
+      <li *ngIf="username.errors?.maxlength && username.dirty">
         Maximum characters: {{username.errors?.maxlength.requiredLength}}
-      </div>
-      <div *ngIf="username.errors?.validateUsername && username.dirty"
-          class="alert alert-danger">
+      </li>
+      <li *ngIf="username.errors?.validateUsername && username.dirty"
+      >
         Username should only contains letters and/or digits
-      </div>
+      </li>
       <div *ngIf="usernameMessage">
         {{ usernameMessage }}
       </div>
-    </div>
-
+    </ul>
   </div>
 
   <!-- Email Input -->
@@ -58,27 +54,23 @@
              placeholder="*Email" formControlName="email"
             (blur)="checkEmail()"/>
     </div>
-    <div class="help-block">
-      <div *ngIf="email.errors?.required && email.dirty"
-           class="alert alert-danger">
+    <ul class="help-block">
+      <li *ngIf="email.errors?.required && email.dirty">
         This field is required
-      </div>
-      <div *ngIf="email.errors?.minlength && email.dirty"
-           class="alert alert-danger">
+      </li>
+      <li *ngIf="email.errors?.minlength && email.dirty">
         Minimum characters: {{email.errors?.minlength.requiredLength}}
-      </div>
-      <div *ngIf="email.errors?.maxlength && email.dirty"
-           class="alert alert-danger">
+      </li>
+      <li *ngIf="email.errors?.maxlength && email.dirty">
         Maximum characters: {{email.errors?.maxlength.requiredLength}}
-      </div>
-      <div *ngIf="email.errors?.validateEmail && email.dirty"
-           class="alert alert-danger">
+      </li>
+      <li *ngIf="email.errors?.validateEmail && email.dirty">
         Please enter a valid email
-      </div>
+      </li>
       <div *ngIf="emailMessage">
         {{ emailMessage }}
       </div>
-    </div>
+    </ul>
   </div>
 
   <!-- Password Input -->
@@ -91,24 +83,20 @@
              class="form-control" autocomplete="off"
              placeholder="*Password" formControlName="password"/>
     </div>
-    <div class="help-block">
-      <div *ngIf="password.errors?.required && password.dirty"
-           class="alert alert-danger">
+    <ul class="help-block">
+      <li *ngIf="password.errors?.required && password.dirty">
         This field is required
-      </div>
-      <div *ngIf="password.errors?.minlength && password.dirty"
-           class="alert alert-danger">
+      </li>
+      <li *ngIf="password.errors?.minlength && password.dirty">
         Minimum characters: {{password.errors?.minlength.requiredLength}}
-      </div>
-      <div *ngIf="password.errors?.maxlength && password.dirty"
-           class="alert alert-danger">
+      </li>
+      <li *ngIf="password.errors?.maxlength && password.dirty">
         Maximum characters: {{password.errors?.maxlength.requiredLength}}
-      </div>
-      <div *ngIf="password.errors?.validatePassword && password.dirty"
-           class="alert alert-danger">
+      </li>
+      <li *ngIf="password.errors?.validatePassword && password.dirty">
         Must have at least one uppercase, lowercase, special character, and number
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 
   <!-- Confirm Password Input -->
@@ -123,16 +111,14 @@
              placeholder="*Confirm Password" formControlName="confirm"/>
     </div>
 
-    <div class="help-block">
-      <div *ngIf="confirm.errors?.required && confirm.dirty"
-           class="alert alert-danger">
+    <ul class="help-block">
+      <li *ngIf="confirm.errors?.required && confirm.dirty">
         This field is required
-      </div>
-      <div *ngIf="form.errors?.matchingPasswords && confirm.dirty && confirm.value"
-           class="alert alert-danger">
+      </li>
+      <li *ngIf="form.errors?.matchingPasswords && confirm.dirty && confirm.value">
         Passwords do not match
-      </div>
-    </div>
+      </li>
+    </ul>
 
   </div>
 
