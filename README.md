@@ -1,1 +1,1 @@
-# MEAN-stack app for fun and learning
+# MEAN-stack app for fun
