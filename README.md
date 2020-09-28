@@ -1,1 +1,1 @@
-# MEAN-stack app for fun
+# MEAN blog
